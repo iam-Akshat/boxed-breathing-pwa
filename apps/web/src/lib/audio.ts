@@ -1,4 +1,5 @@
 import type { BreathingPhase } from "@/lib/breathing";
+import { haptic } from "ios-haptics";
 
 // Audio context for generating sounds
 let audioContext: AudioContext | null = null;
@@ -115,22 +116,38 @@ export function playCompleteSound(): void {
   });
 }
 
-// Mock haptic feedback
+// Haptic feedback using ios-haptics with navigator.vibrate fallback
 export function triggerHaptic(type: "light" | "medium" | "heavy" = "light"): void {
-  if (typeof navigator === "undefined") return;
+  if (typeof window === "undefined") return;
   
-  // Check if vibration API is available
-  if ("vibrate" in navigator) {
-    const patterns: Record<string, number | number[]> = {
-      light: 10,
-      medium: 20,
-      heavy: 30,
-    };
-    
-    try {
-      navigator.vibrate(patterns[type]);
-    } catch {
-      // Ignore vibration errors
+  try {
+    // Use ios-haptics for iOS Safari support
+    // It automatically falls back to navigator.vibrate() on Android
+    switch (type) {
+      case "light":
+        haptic();
+        break;
+      case "medium":
+        haptic.confirm();
+        break;
+      case "heavy":
+        haptic.error();
+        break;
+    }
+  } catch {
+    // Fallback to navigator.vibrate if ios-haptics fails
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      const patterns: Record<string, number | number[]> = {
+        light: 10,
+        medium: 20,
+        heavy: 30,
+      };
+      
+      try {
+        navigator.vibrate(patterns[type]);
+      } catch {
+        // Ignore vibration errors
+      }
     }
   }
   
