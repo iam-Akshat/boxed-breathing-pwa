@@ -73,10 +73,10 @@ export function BoxedBreathing({ onComplete }: BoxedBreathingProps) {
   const isPaused = timer.state === "paused";
 
   return (
-    <div className="flex flex-col items-center justify-center gap-8 p-4">
+    <div className="flex flex-col items-center justify-center gap-6 p-4 max-w-lg mx-auto">
       {/* Header */}
       <div className="text-center space-y-2">
-        <h1 className="text-4xl font-black uppercase tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black uppercase tracking-tight">
           Boxed Breathing
         </h1>
         <div className="neo-brutalist-border bg-neo-yellow px-4 py-1 inline-block">
@@ -87,38 +87,40 @@ export function BoxedBreathing({ onComplete }: BoxedBreathingProps) {
       </div>
 
       {/* Main Square Visualization */}
-      <div className="relative">
-        {/* Phase indicators around the square */}
-        {PHASES.map((phaseInfo) => (
-          <div
-            key={phaseInfo.phase}
-            className={cn(
-              "absolute flex items-center justify-center transition-all duration-500",
-              phaseInfo.side === "top" &&
-                "-top-12 left-1/2 -translate-x-1/2",
-              phaseInfo.side === "right" &&
-                "-right-20 top-1/2 -translate-y-1/2",
-              phaseInfo.side === "bottom" &&
-                "-bottom-12 left-1/2 -translate-x-1/2",
-              phaseInfo.side === "left" &&
-                "-left-20 top-1/2 -translate-y-1/2"
-            )}
-          >
+      <div className="relative mt-8 sm:mt-12">
+        {/* Desktop: Phase indicators around the square */}
+        <div className="hidden sm:block sm:mt-12">
+          {PHASES.map((phaseInfo) => (
             <div
+              key={phaseInfo.phase}
               className={cn(
-                "neo-brutalist-border px-3 py-1.5 text-xs font-bold uppercase whitespace-nowrap transition-all duration-300",
-                timer.currentPhase === phaseInfo.phase
-                  ? "bg-neo-yellow scale-110"
-                  : "bg-background opacity-40 scale-100"
+                "absolute flex items-center justify-center transition-all duration-500",
+                phaseInfo.side === "top" &&
+                  "-top-14 left-1/2 -translate-x-1/2",
+                phaseInfo.side === "right" &&
+                  "-right-24 top-1/2 -translate-y-1/2",
+                phaseInfo.side === "bottom" &&
+                  "-bottom-14 left-1/2 -translate-x-1/2",
+                phaseInfo.side === "left" &&
+                  "-left-24 top-1/2 -translate-y-1/2"
               )}
             >
-              {phaseInfo.label}
+              <div
+                className={cn(
+                  "neo-brutalist-border px-3 py-1.5 text-xs font-bold uppercase whitespace-nowrap transition-all duration-300",
+                  timer.currentPhase === phaseInfo.phase
+                    ? "bg-neo-yellow scale-110"
+                    : "bg-background opacity-40 scale-100"
+                )}
+              >
+                {phaseInfo.label}
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
 
         {/* The Square */}
-        <div className="relative w-64 h-64 sm:w-80 sm:h-80">
+        <div className="relative w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80">
           {/* Background square */}
           <div className="absolute inset-0 neo-brutalist-border bg-background" />
 
@@ -155,11 +157,11 @@ export function BoxedBreathing({ onComplete }: BoxedBreathingProps) {
           <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
             <div
               className={cn(
-                "neo-brutalist-border neo-brutalist-shadow bg-background px-6 py-4 text-center transition-all duration-300",
+                "neo-brutalist-border neo-brutalist-shadow bg-background px-4 py-3 sm:px-6 sm:py-4 text-center transition-all duration-300",
                 isRunning && "scale-105"
               )}
             >
-              <div className="text-3xl sm:text-4xl font-black tabular-nums">
+              <div className="text-2xl sm:text-3xl md:text-4xl font-black tabular-nums">
                 {Math.ceil(timer.phaseTimeRemaining)}
               </div>
               <div className="text-xs font-bold uppercase tracking-wider mt-1 text-muted-foreground">
@@ -168,35 +170,68 @@ export function BoxedBreathing({ onComplete }: BoxedBreathingProps) {
             </div>
           </div>
 
-          {/* Progress dots */}
-          <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex gap-2">
-            {PHASES.map((phase, index) => {
-              const phaseIndex = PHASES.findIndex(
-                (p) => p.phase === timer.currentPhase
-              );
-              const isCompleted = index < phaseIndex;
-              const isCurrent = index === phaseIndex;
+        </div>
 
-              return (
-                <div
-                  key={phase.phase}
-                  className={cn(
-                    "w-3 h-3 neo-brutalist-border transition-all duration-300",
-                    isCompleted && "bg-neo-lime",
-                    isCurrent && "bg-neo-yellow scale-125",
-                    !isCompleted && !isCurrent && "bg-background"
-                  )}
-                />
-              );
-            })}
-          </div>
+        {/* Progress dots - positioned below the square */}
+        <div className="mt-4 sm:mt-6 flex justify-center gap-2">
+          {PHASES.map((phase, index) => {
+            const phaseIndex = PHASES.findIndex(
+              (p) => p.phase === timer.currentPhase
+            );
+            const isCompleted = index < phaseIndex;
+            const isCurrent = index === phaseIndex;
+
+            return (
+              <div
+                key={phase.phase}
+                className={cn(
+                  "w-2.5 h-2.5 sm:w-3 sm:h-3 neo-brutalist-border transition-all duration-300",
+                  isCompleted && "bg-neo-lime",
+                  isCurrent && "bg-neo-yellow scale-125",
+                  !isCompleted && !isCurrent && "bg-background"
+                )}
+              />
+            );
+          })}
         </div>
       </div>
 
-      {/* Current phase instruction */}
+      {/* Mobile: Phase indicators and instruction */}
+      <div className="flex sm:hidden flex-col items-center gap-3">
+        {/* Phase indicators in a horizontal row */}
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          {PHASES.map((phaseInfo) => (
+            <div
+              key={phaseInfo.phase}
+              className={cn(
+                "neo-brutalist-border px-2 py-1 text-xs font-bold uppercase transition-all duration-300",
+                timer.currentPhase === phaseInfo.phase
+                  ? "bg-neo-yellow scale-105"
+                  : "bg-background opacity-40 scale-100"
+              )}
+            >
+              {phaseInfo.label}
+            </div>
+          ))}
+        </div>
+        
+        {/* Current phase instruction */}
+        <div
+          className={cn(
+            "text-center transition-all duration-300 px-4",
+            isRunning ? "opacity-100" : "opacity-50"
+          )}
+        >
+          <p className="text-base font-bold uppercase">
+            {currentPhaseInfo.instruction}
+          </p>
+        </div>
+      </div>
+
+      {/* Desktop: Current phase instruction only */}
       <div
         className={cn(
-          "text-center transition-all duration-300",
+          "hidden sm:block text-center transition-all duration-300 px-4",
           isRunning ? "opacity-100" : "opacity-50"
         )}
       >
@@ -206,7 +241,7 @@ export function BoxedBreathing({ onComplete }: BoxedBreathingProps) {
       </div>
 
       {/* Controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
         {!isRunning && !isPaused && (
           <Button
             onClick={handleStart}
