@@ -113,6 +113,14 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
+  
+  /* Neobrutalism Colors */
+  --color-neo-yellow: #FFD700;
+  --color-neo-pink: #FF6B9D;
+  --color-neo-cyan: #00E5FF;
+  --color-neo-lime: #CCFF00;
+  --color-neo-orange: #FF9500;
+  --color-neo-purple: #B967FF;
 }
 
 @layer base {
@@ -125,4 +133,101 @@
   html {
     @apply font-sans;
   }
+}
+
+/* Neobrutalism Utility Classes */
+.neo-brutalist-border {
+  border-width: 4px;
+  border-color: black;
+  border-radius: 0;
+}
+
+.neo-brutalist-shadow {
+  box-shadow: 6px 6px 0 0 black;
+}
+
+.neo-brutalist-shadow-sm {
+  box-shadow: 4px 4px 0 0 black;
+}
+
+.neo-brutalist-shadow-lg {
+  box-shadow: 8px 8px 0 0 black;
+}
+
+.neo-brutalist-button {
+  border-width: 4px;
+  border-color: black;
+  border-radius: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition-property: all;
+  transition-duration: 100ms;
+  box-shadow: 4px 4px 0 0 black;
+}
+
+.neo-brutalist-button:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 black;
+}
+
+.neo-brutalist-button:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 0 black;
+}
+
+.neo-brutalist-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 4px 4px 0 0 black;
+}
+
+/* Neobrutalism Colors */
+.bg-neo-yellow {
+  background-color: #FFD700;
+}
+
+.bg-neo-pink {
+  background-color: #FF6B9D;
+}
+
+.bg-neo-cyan {
+  background-color: #00E5FF;
+}
+
+.bg-neo-lime {
+  background-color: #CCFF00;
+}
+
+.bg-neo-orange {
+  background-color: #FF9500;
+}
+
+.bg-neo-purple {
+  background-color: #B967FF;
+}
+
+.text-neo-yellow {
+  color: #FFD700;
+}
+
+.text-neo-pink {
+  color: #FF6B9D;
+}
+
+.text-neo-cyan {
+  color: #00E5FF;
+}
+
+.text-neo-lime {
+  color: #CCFF00;
+}
+
+.text-neo-orange {
+  color: #FF9500;
+}
+
+.text-neo-purple {
+  color: #B967FF;
 }
